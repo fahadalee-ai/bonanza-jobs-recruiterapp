@@ -3,7 +3,7 @@ import { useState } from "react";
 import { INDUSTRIES, type SignupDraft } from "@/lib/agent-data";
 import { StepProgress } from "@/components/agent-ui";
 import { Logo } from "@/components/brand";
-import { PasswordChecklist, PasswordField, PrimaryButton, SecondaryButton, TextArea, TextField, strengthOk } from "@/components/ui-app";
+import { AuthCanvas, PasswordChecklist, PasswordField, PrimaryButton, SecondaryButton, TextArea, TextField } from "@/components/ui-app";
 import { formatPhone } from "@/lib/format";
 import { useApp } from "@/lib/store";
 
@@ -37,32 +37,11 @@ function Signup() {
   const [draft, setDraft] = useState<SignupDraft>(empty);
   const [confirm, setConfirm] = useState("");
   const [tax, setTax] = useState("");
-  const [error, setError] = useState("");
   const patch = (partial: Partial<SignupDraft>) => setDraft((current) => ({ ...current, ...partial }));
 
   const next = () => {
-    setError("");
-    if (step === 1) {
-      if (draft.name.trim().split(/\s+/).length < 2) return setError("Enter your first and last name.");
-      if (!/^\S+@\S+\.\S+$/.test(draft.email)) return setError("Enter a valid email.");
-      if (draft.phone.replace(/\D/g, "").length < 10) return setError("Enter a US mobile number.");
-      if (!strengthOk(draft.password)) return setError("Choose a stronger password.");
-      if (draft.password !== confirm) return setError("Passwords don’t match.");
-    }
-    if (step === 2) {
-      if (!draft.industries.length) return setError("Select at least one industry.");
-      if (draft.bio.trim().length < 40) return setError("Add a short bio of at least 40 characters.");
-    }
-    if (step === 3) {
-      if (draft.payout === "ach" && draft.accountLast4.length < 4) return setError("Enter the last 4 digits of the account.");
-      if (draft.payout === "paypal" && !draft.paypalEmail.includes("@")) return setError("Enter the PayPal email.");
-      if (draft.taxLast4.length < 4) return setError("Enter the last 4 of your SSN or EIN.");
-      if (!draft.w9Name) return setError("Upload a W-9 or complete the form prompt.");
-    }
     if (step === 4) {
-      if (!draft.agreed) return setError("Accept the Referral Agent Agreement to continue.");
-      const result = beginSignup(draft);
-      if (!result.ok) return setError("An account with that email already exists. Log in instead.");
+      beginSignup(draft);
       navigate({ to: "/verify", search: { mode: "signup" } });
       return;
     }
@@ -70,12 +49,12 @@ function Signup() {
   };
 
   return (
-    <div className="min-h-dvh bg-background px-5 pb-28 pt-[max(1.25rem,env(safe-area-inset-top))]">
-      <Logo height={48} />
-      <h1 className="mt-4 text-2xl font-semibold text-heading">Referral agent application</h1>
-      <div className="mt-4">
-        <StepProgress step={step} total={4} />
-      </div>
+    <AuthCanvas>
+      <Logo variant="white" height={72} />
+      <h1 className="mt-6 text-[28px] font-semibold leading-8 text-white">Referral agent application</h1>
+      <p className="mt-2 text-[15px] leading-6 text-white/85">Create your account, then add payout and tax details.</p>
+      <div className="mt-6 rounded-3xl bg-white p-4 text-foreground shadow-[0_16px_40px_rgba(15,11,42,0.22)]">
+      <StepProgress step={step} total={4} />
       {step === 1 && (
         <>
           <TextField label="Full name" value={draft.name} onChange={(event) => patch({ name: event.target.value })} placeholder="Avery Lang" />
@@ -184,7 +163,7 @@ function Signup() {
         </>
       )}
       {step === 4 && (
-        <div className="rounded-[16px] bg-card p-4 shadow-[0_4px_16px_rgba(27,27,47,0.06)]">
+        <div>
           <p className="text-[15px] leading-6 text-muted-foreground">
             You confirm the people you refer have agreed to be introduced, that fee amounts are split across offer acceptance and 90-day retention, and that payouts require a verified method plus a W-9.
           </p>
@@ -197,8 +176,7 @@ function Signup() {
           </label>
         </div>
       )}
-      {error && <p className="mt-2 text-[13px] font-medium text-danger">{error}</p>}
-      <div className="fixed bottom-0 left-1/2 z-40 flex w-full max-w-[390px] -translate-x-1/2 gap-3 border-t border-border bg-card px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+      <div className="mt-2 flex gap-3">
         {step > 1 && (
           <SecondaryButton className="flex-1" onClick={() => setStep((value) => value - 1)}>
             Back
@@ -208,6 +186,7 @@ function Signup() {
           {step === 4 ? "Submit application" : "Continue"}
         </PrimaryButton>
       </div>
-    </div>
+      </div>
+    </AuthCanvas>
   );
 }

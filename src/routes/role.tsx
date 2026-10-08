@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Briefcase, Building2, UserPlus } from "lucide-react";
 import { Logo } from "@/components/brand";
-import { Card, PageHeader } from "@/components/ui-app";
+import { AuthCanvas, Card } from "@/components/ui-app";
 import { useApp } from "@/lib/store";
 
 export const Route = createFileRoute("/role")({
@@ -18,10 +18,11 @@ function RoleSwitch() {
   const navigate = useNavigate();
   const { pushToast } = useApp();
   return (
-    <div className="min-h-dvh bg-background pb-8">
-      <PageHeader title="Switch role" fallback="/welcome" brand />
-      <div className="space-y-3 px-4">
-        <Logo height={48} className="mb-2" />
+    <AuthCanvas>
+      <Logo variant="white" height={72} />
+      <h1 className="mt-6 text-[28px] font-semibold leading-8 text-white">Switch role</h1>
+      <p className="mt-2 text-[15px] leading-6 text-white/85">This app is the referral agent experience.</p>
+      <div className="mt-6 space-y-3">
         {ROLES.map((role) => {
           const Icon = role.icon;
           return (
@@ -45,6 +46,6 @@ function RoleSwitch() {
           );
         })}
       </div>
-    </div>
+    </AuthCanvas>
   );
 }

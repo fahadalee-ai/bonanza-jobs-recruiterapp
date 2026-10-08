@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Clock3, Mail } from "lucide-react";
 import { useEffect } from "react";
 import { Logo } from "@/components/brand";
-import { PrimaryButton, SecondaryButton } from "@/components/ui-app";
+import { AuthCanvas, PrimaryButton, SecondaryButton } from "@/components/ui-app";
 import { useApp } from "@/lib/store";
 
 export const Route = createFileRoute("/pending")({
@@ -23,9 +23,9 @@ function Pending() {
   const rejected = user.status === "rejected";
 
   return (
-    <div className="flex min-h-dvh flex-col bg-background px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-[max(1.5rem,env(safe-area-inset-top))]">
-      <Logo height={56} />
-      <div className="mt-8 rounded-[16px] bg-card p-5 text-center shadow-[0_4px_16px_rgba(27,27,47,0.06)]">
+    <AuthCanvas>
+      <Logo variant="white" height={72} />
+      <div className="mt-6 rounded-3xl bg-white p-5 text-center shadow-[0_16px_40px_rgba(15,11,42,0.22)]">
         <div className={`mx-auto flex h-16 w-16 items-center justify-center rounded-full ${rejected ? "bg-[#FEE2E2] text-[#991B1B]" : "bg-[#F3E8FF] text-[#6B21A8]"}`}>
           {rejected ? <Mail size={28} /> : <Clock3 size={28} />}
         </div>
@@ -58,10 +58,10 @@ function Pending() {
         <SecondaryButton className="w-full" onClick={() => navigate({ to: "/support" })}>
           Contact Support
         </SecondaryButton>
-        <button type="button" onClick={() => app.logout()} className="w-full py-2 text-sm font-semibold text-muted-foreground">
+        <button type="button" onClick={() => app.logout()} className="w-full py-2 text-sm font-semibold text-white">
           Log out
         </button>
       </div>
-    </div>
+    </AuthCanvas>
   );
 }

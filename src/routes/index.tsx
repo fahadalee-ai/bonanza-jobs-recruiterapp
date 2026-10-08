@@ -4,7 +4,9 @@ import { Logo } from "@/components/brand";
 import { useApp } from "@/lib/store";
 
 export const Route = createFileRoute("/")({
-  head: () => ({ meta: [{ title: "Bonanza Jobs" }] }),
+  head: () => ({
+    meta: [{ title: "Bonanza Jobs" }],
+  }),
   component: Splash,
 });
 
@@ -26,20 +28,18 @@ function Splash() {
   }, [hydrated, navigate, leaving, user, onboarded]);
 
   return (
-    <div className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-white via-[#F7F4FC] to-[#E7D4F7] px-6">
+    <div className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-[#7A22C8] via-[#4A28C9] to-[#0FAEE5] px-6">
+      <div className="pointer-events-none absolute -left-20 -top-10 h-64 w-64 rounded-full bg-white/15 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-16 -right-12 h-56 w-56 rounded-full bg-[#7EE7FF]/30 blur-3xl" />
       <div className="animate-[splash-pop_0.8s_ease] text-center">
-        <div className="relative mx-auto w-fit rounded-[28px] bg-gradient-to-br from-[#7A22C8] to-[#0FAEE5] p-[3px] shadow-[0_16px_40px_rgba(122,34,200,0.18)]">
-          <div className="rounded-[25px] bg-white px-5 py-4">
-            <Logo height={72} />
-          </div>
-          <span className="pointer-events-none absolute inset-0 overflow-hidden rounded-[28px]">
-            <span className="absolute inset-y-0 left-0 w-1/2 -skew-x-12 bg-gradient-to-r from-transparent via-white/70 to-transparent animate-[splash-shimmer_1.6s_ease_0.2s_1]" />
-          </span>
+        <div className="relative mx-auto w-fit overflow-hidden">
+          <Logo variant="white" height={156} className="drop-shadow-[0_16px_36px_rgba(15,11,42,0.35)]" />
+          <span className="pointer-events-none absolute inset-y-0 left-0 w-1/2 -skew-x-12 bg-gradient-to-r from-transparent via-[#B8F3FF]/80 to-transparent mix-blend-screen animate-[splash-shimmer_1.5s_ease_0.2s_1]" />
         </div>
-        <p className="mt-6 text-[15px] font-semibold tracking-wide text-[#2B1F6E]">Refer. Earn. Grow.</p>
+        <p className="mt-6 text-sm font-medium tracking-wide text-white">Refer. Earn. Grow.</p>
       </div>
-      <div className="absolute bottom-[max(2rem,env(safe-area-inset-bottom))] left-10 right-10 h-1.5 overflow-hidden rounded-full bg-[#E7D4F7]">
-        <div className="h-full w-full origin-left bg-gradient-to-r from-[#7A22C8] to-[#0FAEE5] animate-[bar-fill_2s_linear_forwards]" />
+      <div className="absolute bottom-[max(2rem,env(safe-area-inset-bottom))] left-10 right-10 h-1 overflow-hidden rounded-full bg-white/25">
+        <div className="h-full w-full origin-left bg-white animate-[bar-fill_2s_linear_forwards]" />
       </div>
     </div>
   );

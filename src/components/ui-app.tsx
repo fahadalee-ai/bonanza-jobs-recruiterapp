@@ -237,7 +237,7 @@ export function SelectField({
 
 export function AuthCanvas({ children }: { children: ReactNode }) {
   return (
-    <div className="relative min-h-dvh overflow-hidden bg-gradient-to-br from-[#7A22C8] via-[#4A28C9] to-[#0FAEE5] px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-[max(1.25rem,env(safe-area-inset-top))]">
+    <div className="relative min-h-dvh overflow-x-hidden bg-gradient-to-br from-[#7A22C8] via-[#4A28C9] to-[#0FAEE5] px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-[max(1.25rem,env(safe-area-inset-top))]">
       <div className="pointer-events-none absolute -left-16 -top-8 h-56 w-56 rounded-full bg-white/15 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-20 -right-10 h-64 w-64 rounded-full bg-[#7EE7FF]/30 blur-3xl" />
       <div className="relative">{children}</div>
